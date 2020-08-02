@@ -1,19 +1,35 @@
 import React from 'react';
-import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
 
-const H1 = styled.h1`
-   color: indigo;
-   font-size: 1.5em;
-   text-align: center;
-   background-color: lightgray;
-   padding: 1rem;
+const GlobalStyle = createGlobalStyle`
+    body{
+        background: white;
+        min-height: 100vh;
+        margin: 0;
+        color: black;
+        font-family: 'Kaushan Script';
+    }
 `;
 
 function App() {
    return (
-      <div>
-         <H1>React styled component</H1>
-      </div>
+      <>
+         <GlobalStyle />
+
+         <BrowserRouter>
+            <Switch>
+               <Route path='/login'>
+                  <Login />
+               </Route>
+               <Route path='/'>
+                  <Home />
+               </Route>
+            </Switch>
+         </BrowserRouter>
+      </>
    );
 }
 
