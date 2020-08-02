@@ -8,7 +8,7 @@ const Content = styled.main`
    padding: 0 16px;
    box-sizing: border-box;
    font-family: 'Open Sans';
-   background-color: #edf2f7;
+   /* background-color: #edf2f7; */
 
    h1,
    h2,
