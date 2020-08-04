@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { PageLayout, Input } from '../common';
+import React, { useState, useEffect } from 'react';
+import { PageLayout, Input, PasswordInput, Button } from '../common';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -11,10 +11,18 @@ const Form = styled.form`
    box-sizing: border-box;
    color: black;
    border-radius: 4px;
+
+   .alt-text {
+      text-align: center;
+      margin: 10px 0;
+   }
 `;
+
+let timeout;
 
 const Login = () => {
    const [formFields, setFormFields] = useState({ userName: '', password: '' });
+   const [loading, setLoading] = useState(false);
 
    const handelInputChange = (event) => {
       event.persist();
@@ -25,10 +33,30 @@ const Login = () => {
       }));
    };
 
+   const handelSubmit = (event) => {
+      event.preventDefault();
+      setLoading(true);
+
+      timeout = setTimeout(() => {
+         setLoading(false);
+         console.log(formFields);
+      }, 2000);
+   };
+
+   useEffect(() => {
+      // run when component mount
+      return () => {
+         // run when component unmount
+         if (timeout) {
+            clearTimeout(timeout);
+         }
+      };
+   }, []);
+
    return (
       <PageLayout>
          <h1>Login</h1>
-         <Form>
+         <Form onSubmit={handelSubmit}>
             <Input
                value={formFields.userName}
                onChange={handelInputChange}
@@ -36,13 +64,22 @@ const Login = () => {
                name='userName'
                placeholder='User Name'
             />
-            <Input
+            <PasswordInput
                value={formFields.password}
                onChange={handelInputChange}
-               type='password'
                name='password'
-               placeholder='Password'
             />
+            <Button primary large type='submit' disabled={loading}>
+               {loading ? 'Loading...' : 'Login'}
+            </Button>
+            {!loading && (
+               <>
+                  <div className='alt-text'>Or</div>
+                  <Button secondary type='button'>
+                     Registry
+                  </Button>
+               </>
+            )}
          </Form>
       </PageLayout>
    );
