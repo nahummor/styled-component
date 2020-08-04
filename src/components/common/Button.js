@@ -1,10 +1,9 @@
-import styled, {
-    css
-} from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const Button = styled.button `
+const Button = styled.button`
    color: white;
-   background: ${(props) => (props.primary ? '#f8049c' : '#fdd54f')};
+   background: ${(props) =>
+      props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
    font-weight: bold;
 
    box-shadow: none;
@@ -39,6 +38,4 @@ const Button = styled.button `
    }
 `;
 
-export {
-    Button
-};
+export { Button };
