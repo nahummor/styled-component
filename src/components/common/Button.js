@@ -1,6 +1,8 @@
-import styled, { css } from 'styled-components';
+import styled, {
+    css
+} from 'styled-components';
 
-const Button = styled.button`
+const Button = styled.button `
    color: white;
    background: ${(props) => (props.primary ? '#f8049c' : '#fdd54f')};
    font-weight: bold;
@@ -11,6 +13,8 @@ const Button = styled.button`
    width: 100%;
    display: block;
    white-space: none;
+
+   transition: background 200ms linear;
 
    ${(props) =>
       props.large
@@ -35,4 +39,6 @@ const Button = styled.button`
    }
 `;
 
-export { Button };
+export {
+    Button
+};

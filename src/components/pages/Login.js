@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PageLayout, Input, PasswordInput, Button } from '../common';
+import { PageLayout, Input, PasswordInput, Button, Spinner } from '../common';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -46,7 +46,7 @@ const Login = () => {
    useEffect(() => {
       // run when component mount
       return () => {
-         // run when component unmount
+         // run when component unmounted
          if (timeout) {
             clearTimeout(timeout);
          }
@@ -57,21 +57,29 @@ const Login = () => {
       <PageLayout>
          <h1>Login</h1>
          <Form onSubmit={handelSubmit}>
-            <Input
-               value={formFields.userName}
-               onChange={handelInputChange}
-               type='text'
-               name='userName'
-               placeholder='User Name'
-            />
-            <PasswordInput
-               value={formFields.password}
-               onChange={handelInputChange}
-               name='password'
-            />
+            {loading ? (
+               <Spinner />
+            ) : (
+               <>
+                  <Input
+                     value={formFields.userName}
+                     onChange={handelInputChange}
+                     type='text'
+                     name='userName'
+                     placeholder='User Name'
+                  />
+
+                  <PasswordInput
+                     value={formFields.password}
+                     onChange={handelInputChange}
+                     name='password'
+                  />
+               </>
+            )}
             <Button primary large type='submit' disabled={loading}>
                {loading ? 'Loading...' : 'Login'}
             </Button>
+
             {!loading && (
                <>
                   <div className='alt-text'>Or</div>
