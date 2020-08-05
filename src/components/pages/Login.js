@@ -16,6 +16,21 @@ const Form = styled.form`
       text-align: center;
       margin: 10px 0;
    }
+
+   /* apply margin only to the first direct child Button in the form */
+   > ${Button}:first-of-type {
+      margin-top: 40px;
+   }
+
+   > ${Input} {
+      margin-top: 20px;
+   }
+
+   .form-title {
+      font-weight: bold;
+      color: #636e72;
+      letter-spacing: 1px;
+   }
 `;
 
 let timeout;
@@ -61,6 +76,9 @@ const Login = () => {
                <Spinner />
             ) : (
                <>
+                  <span className='form-title'>
+                     Login if you have an account
+                  </span>
                   <Input
                      value={formFields.userName}
                      onChange={handelInputChange}

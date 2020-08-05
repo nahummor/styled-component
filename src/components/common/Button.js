@@ -1,4 +1,21 @@
 import styled, { css } from 'styled-components';
+import PropTypes from 'prop-types';
+
+const largeStyle = ({ large }) => {
+   if (large) {
+      return css`
+         padding: 10px;
+         font-size: 1.5rem;
+         border-radius: 5px;
+      `;
+   } else {
+      return css`
+         padding: 8px;
+         font-size: 1rem;
+         border-radius: 4px;
+      `;
+   }
+};
 
 const Button = styled.button`
    color: white;
@@ -15,18 +32,7 @@ const Button = styled.button`
 
    transition: background 200ms linear;
 
-   ${(props) =>
-      props.large
-         ? css`
-              padding: 10px;
-              font-size: 1.5rem;
-              border-radius: 5px;
-           `
-         : css`
-              padding: 8px;
-              font-size: 1rem;
-              border-radius: 4px;
-           `}
+   ${largeStyle}
 
    &:disabled {
       background: #eee;
@@ -38,4 +44,22 @@ const Button = styled.button`
    }
 `;
 
+Button.propTypes = {
+   large: PropTypes.bool,
+   secondary: PropTypes.bool,
+};
+
 export { Button };
+
+// ${(props) =>
+//     props.large
+//        ? css`
+//             padding: 10px;
+//             font-size: 1.5rem;
+//             border-radius: 5px;
+//          `
+//        : css`
+//             padding: 8px;
+//             font-size: 1rem;
+//             border-radius: 4px;
+//          `}
