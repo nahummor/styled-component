@@ -6,3 +6,4 @@ export * from './PasswordInput';
 export * from './Spinner';
 export * from './Toggle';
 export * from './Card';
+export * from './Row';

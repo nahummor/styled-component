@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageLayout, Card } from '../common';
+import { PageLayout, Card, Row } from '../common';
 
 const Home = () => {
    return (
@@ -11,9 +11,46 @@ const Home = () => {
             atque provident quas, veniam consectetur ducimus eveniet vel
             obcaecati. Magni?
          </p>
-         <Card>
-            <h2>Test card</h2>
-         </Card>
+
+         <Row>
+            <Card
+               title={'כותרת ראשית'}
+               subTitle={'כותרת משנית'}
+               width={'15rem'}
+               elevation={1}>
+               <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Aperiam beatae veniam nam ullam perspiciatis eos ut dolorum
+                  deserunt corporis, non perferendis dignissimos rem.
+                  Dignissimos nisi nam temporibus? A, aperiam nobis.
+               </p>
+            </Card>
+
+            <Card
+               title={'כותרת ראשית'}
+               subTitle={'כותרת משנית'}
+               width={'20rem'}
+               elevation={2}>
+               <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Aperiam beatae veniam nam ullam perspiciatis eos ut dolorum
+                  deserunt corporis, non perferendis dignissimos rem.
+                  Dignissimos nisi nam temporibus? A, aperiam nobis.
+               </p>
+            </Card>
+            <Card
+               title={'כותרת ראשית'}
+               subTitle={'כותרת משנית'}
+               width={'25rem'}
+               elevation={3}>
+               <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Aperiam beatae veniam nam ullam perspiciatis eos ut dolorum
+                  deserunt corporis, non perferendis dignissimos rem.
+                  Dignissimos nisi nam temporibus? A, aperiam nobis.
+               </p>
+            </Card>
+         </Row>
       </PageLayout>
    );
 };
