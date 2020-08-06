@@ -1,5 +1,6 @@
 import React from 'react';
-import { PageLayout } from '../common';
+import { PageLayout, Card } from '../common';
+
 const Home = () => {
    return (
       <PageLayout>
@@ -10,6 +11,9 @@ const Home = () => {
             atque provident quas, veniam consectetur ducimus eveniet vel
             obcaecati. Magni?
          </p>
+         <Card>
+            <h2>Test card</h2>
+         </Card>
       </PageLayout>
    );
 };
