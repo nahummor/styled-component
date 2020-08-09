@@ -1,7 +1,9 @@
-import React from 'react';
-import { PageLayout, Card, Row } from '../common';
+import React, { useState } from 'react';
+import { PageLayout, Card, Row, Button, YesNoModal } from '../common';
 
 const Home = () => {
+   const [showModal, setShowModal] = useState(false);
+
    return (
       <PageLayout>
          <h1>Home</h1>
@@ -50,7 +52,41 @@ const Home = () => {
                   Dignissimos nisi nam temporibus? A, aperiam nobis.
                </p>
             </Card>
+            <Card
+               title={'כותרת ראשית'}
+               subTitle={'כותרת משנית'}
+               width={'25rem'}
+               elevation={4}>
+               <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Aperiam beatae veniam nam ullam perspiciatis eos ut dolorum
+                  deserunt corporis, non perferendis dignissimos rem.
+                  Dignissimos nisi nam temporibus? A, aperiam nobis.
+               </p>
+            </Card>
+            <Card
+               title={'כותרת ראשית'}
+               subTitle={'כותרת משנית'}
+               width={'25rem'}
+               elevation={5}>
+               <p>
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                  Aperiam beatae veniam nam ullam perspiciatis eos ut dolorum
+                  deserunt corporis, non perferendis dignissimos rem.
+                  Dignissimos nisi nam temporibus? A, aperiam nobis.
+               </p>
+               <Button onClick={() => setShowModal(true)}>בצע</Button>
+            </Card>
          </Row>
+         <YesNoModal
+            show={showModal}
+            onYes={() => {
+               setShowModal(false);
+               console.log('Yes....');
+            }}
+            onClose={() => setShowModal(false)}
+            message={'האם לבצע'}
+         />
       </PageLayout>
    );
 };

@@ -4,6 +4,8 @@ import { Input } from './';
 
 const PasswordInputWrapper = styled.div`
    display: flex;
+   position: relative;
+
    /* select the first div after  PasswordInputWrapper */
    ~ div {
       margin-bottom: 8px;
@@ -13,12 +15,14 @@ const PasswordInputWrapper = styled.div`
 const PasswordInputStyled = styled(Input).attrs(() => ({
    placeholder: 'Password',
 }))`
-   border-top-right-radius: 0;
-   border-bottom-right-radius: 0;
+   border-top-right-radius: 4px;
+   border-bottom-right-radius: 4px;
 `;
 
 const ToggleButton = styled.div`
-   display: flex;
+   position: absolute;
+   right: 0rem;
+
    height: 40px;
    width: 4rem;
    box-sizing: border-box;

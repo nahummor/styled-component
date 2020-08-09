@@ -10,6 +10,11 @@ const Input = styled.input`
    width: 100%;
    box-sizing: border-box;
    height: 40px;
+
+   &:focus {
+      box-shadow: 0 0 3px 2px blue;
+      outline: none;
+   }
 `;
 
 export { Input };

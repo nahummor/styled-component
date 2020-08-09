@@ -7,3 +7,5 @@ export * from './Spinner';
 export * from './Toggle';
 export * from './Card';
 export * from './Row';
+export * from './YesNoModal';
+export * from './Select';

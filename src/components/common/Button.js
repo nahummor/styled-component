@@ -22,8 +22,9 @@ const Button = styled.button`
    background: ${(props) =>
       props.primary ? props.theme.primaryColor : props.theme.secondaryColor};
    font-weight: bold;
-
+   outline: none;
    box-shadow: none;
+   cursor: pointer;
 
    border: none;
    width: 100%;

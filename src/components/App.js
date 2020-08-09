@@ -3,6 +3,8 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import AddPersonForm from './pages/AddPersonForm';
+
 import LightTheme from './common/themes/light';
 import DarkTheme from './common/themes/dark';
 
@@ -43,6 +45,9 @@ function App() {
          <GlobalStyle />
          <BrowserRouter>
             <Switch>
+               <Route path='/addPerson'>
+                  <AddPersonForm />
+               </Route>
                <Route path='/login'>
                   <Login />
                </Route>
