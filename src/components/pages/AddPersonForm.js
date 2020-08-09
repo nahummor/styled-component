@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { PageLayout, Input, Button, Select } from '../common';
+import { PageLayout, Input, Button, Select, DropList } from '../common';
 
 const Container = styled.div`
    display: flex;
@@ -18,6 +18,7 @@ const Container = styled.div`
       }
    }
 `;
+const cites = ['באר שבע', 'ירושלים', 'תל אביב', 'חיפה'];
 
 const AddPersonForm = () => {
    const [person, setPerson] = useState({
@@ -64,7 +65,9 @@ const AddPersonForm = () => {
                   value={person.city}
                   onChange={onFieldChange}
                /> */}
-               <Select name='city' onChange={onFieldChange} />
+               <Select name='city' onChange={onFieldChange} data={cites} />
+               <DropList title={'עיר'} />
+
                <Button primary large onClick={addNewPerson}>
                   הוספה
                </Button>
