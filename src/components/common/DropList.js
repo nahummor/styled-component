@@ -88,16 +88,20 @@ const openListContainer = ({ openList }) => {
 const ListContainer = styled.div`
    ${openListContainer}
 
-   opacity: 0;
+   opacity: ${(props) => (props.showList ? 1 : 0)};
+   transition-property: opacity;
+   transition-duration: 200ms;
+   transition-timing-function: linear;
 `;
 
 const DropList = ({
    title,
-   name,
    data,
    defaultValue,
    placeHolder,
-   onValueChange,
+   onItemChange,
+   inputRef,
+   inputName,
 }) => {
    const [openList, setOpenList] = useState(false);
    const [selectedValue, setSelectedValue] = useState(defaultValue);
@@ -113,12 +117,18 @@ const DropList = ({
    }, [getLinks]);
 
    const onCancelMenuHandler = () => {
-      setOpenList(false);
+      setOpenListWithOpacity(false);
+      setTimeout(() => {
+         setOpenList(false);
+      }, 200);
       document.removeEventListener('keydown', onKeyDownHandler);
    };
 
    const onMenuClickHandler = () => {
-      setOpenList((prevValue) => !prevValue);
+      setOpenList(true);
+      setTimeout(() => {
+         setOpenListWithOpacity(true);
+      }, 2);
       document.addEventListener('keydown', onKeyDownHandler);
    };
 
@@ -126,15 +136,21 @@ const DropList = ({
       //   console.log('key: ', event.key, event.which);
       // ESC = 27
       if (event.which === 27) {
-         setOpenList(false);
+         setOpenListWithOpacity(false);
+         setTimeout(() => {
+            setOpenList(false);
+         }, 200);
          document.removeEventListener('keydown', onKeyDownHandler);
       }
    };
 
    const onItemClickHandler = (event) => {
       setSelectedValue(event.target.innerText);
-      onValueChange(event.target.innerText);
-      setOpenList(false);
+      onItemChange(event.target.innerText);
+      setOpenListWithOpacity(false);
+      setTimeout(() => {
+         setOpenList(false);
+      }, 200);
       document.removeEventListener('keydown', onKeyDownHandler);
    };
 
@@ -154,8 +170,9 @@ const DropList = ({
             <DropDownIcon />
          </DropButton>
          <Input
+            ref={inputRef}
+            name={inputName}
             type='text'
-            name={name}
             value={selectedValue}
             readOnly
             placeholder={placeHolder}
@@ -163,13 +180,13 @@ const DropList = ({
 
          {openList ? (
             <TransparentButton
+               type='button'
                onClick={onCancelMenuHandler}
                tabIndex='-1'></TransparentButton>
          ) : null}
 
-         <ListContainer openList={openList}>
+         <ListContainer openList={openList} showList={openListWithOpacity}>
             <ul
-               name={name}
                onClick={onItemClickHandler}
                style={{
                   padding: 0,

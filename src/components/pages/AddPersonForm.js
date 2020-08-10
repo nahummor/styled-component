@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers';
 
-import { PageLayout, Input, Button, Select, DropList, Card } from '../common';
+import { PageLayout, Input, Button, DropList, Card } from '../common';
 
 const Container = styled.div`
    display: flex;
@@ -27,29 +30,28 @@ const MainContainer = styled.div`
 
 const cites = ['באר שבע', 'ירושלים', 'תל אביב', 'חיפה'];
 
+const formSchema = Yup.object().shape({
+   firstName: Yup.string().required('שדה חובה'),
+   lastName: Yup.string().required('שדה חובה'),
+   city: Yup.string().required('שדה חובה'),
+});
+
 const AddPersonForm = () => {
-   const [person, setPerson] = useState({
-      firstName: '',
-      lastName: '',
-      city: '',
+   const { register, handleSubmit, errors, formState, setValue } = useForm({
+      mode: 'onChange',
+      resolver: yupResolver(formSchema),
    });
 
-   const addNewPerson = (event) => {
-      event.preventDefault();
-      console.log(person);
+   //    const onFieldChange = (event) => {
+   //       event.persist();
+   //       console.log(event.target.name, event.target.value);
+   //    };
+   const onItemChange = (item) => {
+      setValue('city', item, { shouldValidate: true });
    };
 
-   const onFieldChange = (event) => {
-      event.persist();
-      setPerson((oldValue) => {
-         return { ...oldValue, [event.target.name]: event.target.value };
-      });
-   };
-
-   const onCityChange = (city) => {
-      setPerson((oldValue) => {
-         return { ...oldValue, city };
-      });
+   const onAddPersonHandler = (formData) => {
+      console.log(formData);
    };
 
    return (
@@ -61,37 +63,39 @@ const AddPersonForm = () => {
                width={'30rem'}
                elevation={5}>
                <Container dir='rtl'>
-                  <form>
+                  <form onSubmit={handleSubmit(onAddPersonHandler)}>
                      <p className='form-title'>תלמיד חדש</p>
                      <Input
+                        ref={register}
                         type='text'
                         name='firstName'
                         placeholder='שם פרטי'
-                        value={person.firstName}
-                        onChange={onFieldChange}
                      />
                      <Input
+                        ref={register}
                         type='text'
                         name='lastName'
                         placeholder='שם משפחה'
-                        value={person.lastName}
-                        onChange={onFieldChange}
                      />
-                     <Select
+                     {/* <Select
                         name='city'
                         onChange={onFieldChange}
                         data={cites}
-                     />
+                     /> */}
                      <DropList
-                        name='city'
+                        inputRef={register}
+                        inputName={'city'}
                         title={'עיר'}
                         data={cites}
                         defaultValue={''}
                         placeHolder={'בחר עיר'}
-                        onValueChange={onCityChange}
+                        onItemChange={onItemChange}
                      />
-
-                     <Button primary large onClick={addNewPerson}>
+                     <Button
+                        primary
+                        large
+                        type='submit'
+                        disabled={!formState.isValid}>
                         הוספה
                      </Button>
                   </form>
