@@ -10,3 +10,4 @@ export * from './Row';
 export * from './YesNoModal';
 export * from './Select';
 export * from './DropList';
+export * from './Icons';
