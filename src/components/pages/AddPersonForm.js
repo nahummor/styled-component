@@ -4,7 +4,14 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 
-import { PageLayout, Input, Button, DropList, Card } from '../common';
+import {
+   PageLayout,
+   Input,
+   Button,
+   DropList,
+   Card,
+   FormMessage,
+} from '../common';
 
 const Container = styled.div`
    display: flex;
@@ -31,8 +38,8 @@ const MainContainer = styled.div`
 const cites = ['באר שבע', 'ירושלים', 'תל אביב', 'חיפה'];
 
 const formSchema = Yup.object().shape({
-   firstName: Yup.string().required('שדה חובה'),
-   lastName: Yup.string().required('שדה חובה'),
+   firstName: Yup.string().required('שדה חובה').min(2, 'שם פרטי לפחות 2 תווים'),
+   lastName: Yup.string().required('שדה חובה').min(2, 'שם משפחה לפחות 2 תווים'),
    city: Yup.string().required('שדה חובה'),
 });
 
@@ -71,12 +78,22 @@ const AddPersonForm = () => {
                         name='firstName'
                         placeholder='שם פרטי'
                      />
+                     <FormMessage>
+                        <p>
+                           {errors.firstName ? errors.firstName.message : null}
+                        </p>
+                     </FormMessage>
                      <Input
                         ref={register}
                         type='text'
                         name='lastName'
                         placeholder='שם משפחה'
                      />
+                     <FormMessage>
+                        <p>
+                           {errors.lastName ? errors.lastName.message : null}
+                        </p>
+                     </FormMessage>
                      {/* <Select
                         name='city'
                         onChange={onFieldChange}
@@ -91,6 +108,9 @@ const AddPersonForm = () => {
                         placeHolder={'בחר עיר'}
                         onItemChange={onItemChange}
                      />
+                     {/* <FormMessage type={'info'}>
+                        <p>שדה חובה</p>
+                     </FormMessage> */}
                      <Button
                         primary
                         large
