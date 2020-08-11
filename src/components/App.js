@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ReactQueryDevtools } from 'react-query-devtools';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import AddPersonForm from './pages/AddPersonForm';
+import People from './pages/StarWors/People';
+import Planets from './pages/StarWors/Planets';
 
 import LightTheme from './common/themes/light';
 import DarkTheme from './common/themes/dark';
@@ -14,7 +18,7 @@ const GlobalStyle = createGlobalStyle`
         max-height: 100vh;
         margin: 0;
         color: ${(props) => props.theme.bodyFontColor};
-        font-family: 'Kaushan Script';
+        /* font-family: 'Kaushan Script'; */
     }
 
    h1,
@@ -33,30 +37,39 @@ function App() {
 
    return (
       // <ThemeProvider theme={theme}>
-      <ThemeProvider
-         theme={{
-            ...theme,
-            setTheme: () => {
-               setTheme((prevState) =>
-                  prevState.id === 'light' ? DarkTheme : LightTheme
-               );
-            },
-         }}>
-         <GlobalStyle />
-         <BrowserRouter>
-            <Switch>
-               <Route path='/addPerson'>
-                  <AddPersonForm />
-               </Route>
-               <Route path='/login'>
-                  <Login />
-               </Route>
-               <Route path='/'>
-                  <Home />
-               </Route>
-            </Switch>
-         </BrowserRouter>
-      </ThemeProvider>
+      <>
+         <ThemeProvider
+            theme={{
+               ...theme,
+               setTheme: () => {
+                  setTheme((prevState) =>
+                     prevState.id === 'light' ? DarkTheme : LightTheme
+                  );
+               },
+            }}>
+            <GlobalStyle />
+            <BrowserRouter>
+               <Switch>
+                  <Route path='/people'>
+                     <People />
+                  </Route>
+                  <Route path='/planets'>
+                     <Planets />
+                  </Route>
+                  <Route path='/addPerson'>
+                     <AddPersonForm />
+                  </Route>
+                  <Route path='/login'>
+                     <Login />
+                  </Route>
+                  <Route path='/'>
+                     <Home />
+                  </Route>
+               </Switch>
+            </BrowserRouter>
+         </ThemeProvider>
+         <ReactQueryDevtools initialIsOpen={false} />
+      </>
    );
 }
 

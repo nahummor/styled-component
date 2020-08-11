@@ -49,7 +49,7 @@ const cardShadow = ({ elevation }) => {
 };
 
 const Div = styled.div`
-   text-align: right;
+   text-align: ${(props) => (props.align === 'left' ? 'left' : 'right')};
    width: ${(props) => props.width};
    background-color: #dff9fb;
    border-radius: 4px;
@@ -68,9 +68,9 @@ const Div = styled.div`
    }
 `;
 
-const Card = ({ children, title, subTitle, width, elevation }) => {
+const Card = ({ children, title, subTitle, width, elevation, align }) => {
    return (
-      <Div width={width} elevation={elevation}>
+      <Div width={width} elevation={elevation} align={align}>
          <h3 className='title'>{title}</h3>
          <h4 className='subtitle'>{subTitle}</h4>
          {children}

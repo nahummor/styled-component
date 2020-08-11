@@ -99,6 +99,12 @@ export function Header() {
                <StyledLink to='/addPerson' isActive={pathname === '/addPerson'}>
                   Add Person
                </StyledLink>
+               <StyledLink to='/people' isActive={pathname === '/people'}>
+                  People - Star Wars
+               </StyledLink>
+               <StyledLink to='/planets' isActive={pathname === '/planets'}>
+                  Planets - Star Wars
+               </StyledLink>
                <Toggle isActive={id === 'dark'} onToggle={setTheme} />
             </Menu>
          </HeaderWrapper>
