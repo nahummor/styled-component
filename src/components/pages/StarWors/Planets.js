@@ -20,6 +20,7 @@ const ButtonsRow = styled.div`
    margin-bottom: 1rem;
    background-color: #b7b7b7;
    border-radius: 5px;
+
    > button {
       box-shadow: 0px 1px 0px 0px #f0f7fa;
       background: linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
@@ -30,7 +31,7 @@ const ButtonsRow = styled.div`
       cursor: pointer;
       color: #ffffff;
       font-family: Arial;
-      font-size: 15px;
+      font-size: 1rem;
       font-weight: bold;
       padding: 6px 24px;
       text-decoration: none;

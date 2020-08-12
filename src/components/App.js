@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import AddPersonForm from './pages/AddPersonForm';
 import People from './pages/StarWors/People';
 import Planets from './pages/StarWors/Planets';
+import Orders from './pages/Orders/Orders';
 
 import LightTheme from './common/themes/light';
 import DarkTheme from './common/themes/dark';
@@ -50,6 +51,9 @@ function App() {
             <GlobalStyle />
             <BrowserRouter>
                <Switch>
+                  <Route path='/orders'>
+                     <Orders />
+                  </Route>
                   <Route path='/people'>
                      <People />
                   </Route>
