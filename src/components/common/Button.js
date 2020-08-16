@@ -42,7 +42,8 @@ const Button = styled.button`
    }
 
    &:hover {
-      background: #eb75be;
+      background: #9265f4;
+      color: #f1ebfe;
    }
 `;
 

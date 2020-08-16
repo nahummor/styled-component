@@ -9,6 +9,7 @@ import AddPersonForm from './pages/AddPersonForm';
 import People from './pages/StarWors/People';
 import Planets from './pages/StarWors/Planets';
 import Orders from './pages/Orders/Orders';
+import TodoMain from './pages/Todo/TodoMain';
 
 import LightTheme from './common/themes/light';
 import DarkTheme from './common/themes/dark';
@@ -51,6 +52,9 @@ function App() {
             <GlobalStyle />
             <BrowserRouter>
                <Switch>
+                  <Route path='/todoMain'>
+                     <TodoMain />
+                  </Route>
                   <Route path='/orders'>
                      <Orders />
                   </Route>
