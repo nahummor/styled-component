@@ -32,7 +32,8 @@ const AddNewTodo = () => {
    useEffect(() => {
       console.log('Status: ', status);
       console.log('Data: ', data);
-   }, [data, status]);
+      console.log('Error: ', error);
+   }, [data, status, error]);
 
    const { register, handleSubmit, errors, formState } = useForm({
       mode: 'onChange',

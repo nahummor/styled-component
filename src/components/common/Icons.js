@@ -23,10 +23,11 @@ export const CheckmarkIcon = () => {
    );
 };
 
-export const EditPencilIcon = () => {
+const EditPencilIcon = () => {
    return (
-      <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0  24 24'>
-         <path d='M12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4-2.3 2.3-4-4z' />
+      <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+         <path d='M0 0h24v24H0z' fill='none' />
+         <path d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z' />
       </Svg>
    );
 };
@@ -42,14 +43,11 @@ export const MenuIcon = () => {
    );
 };
 
-export const XIcon = () => {
+const XIcon = () => {
    return (
-      <svg
-         className='w-8 h-8 fill-current'
-         xmlns='http://www.w3.org/2000/svg'
-         viewBox='0 0 24 24'>
+      <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
          <path d='M16.24 14.83a1 1 0 01-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 01-1.41-1.41L10.59 12 7.76 9.17a1 1 0 011.41-1.41L12 10.59l2.83-2.83a1 1 0 011.41 1.41L13.41 12l2.83 2.83z' />
-      </svg>
+      </Svg>
    );
 };
 
@@ -93,4 +91,13 @@ export const MinusIcon = () => {
    );
 };
 
-export { DropDownIcon };
+const DeleteOutLineIcon = () => {
+   return (
+      <Svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'>
+         <path d='M0 0h24v24H0V0z' fill='none' />
+         <path d='M6 19c0 1.1.9 2 2 2h8a2 2 0 002-2V7H6v12zM8 9h8v10H8V9zm7.5-5l-1-1h-5l-1 1H5v2h14V4z' />
+      </Svg>
+   );
+};
+
+export { DropDownIcon, EditPencilIcon, XIcon, DeleteOutLineIcon };
