@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import * as Yup from 'yup';
@@ -22,20 +22,26 @@ const addNewTodo = async (todo) => {
 
 const AddNewTodo = () => {
    const [mutate, { status, data, error }] = useMutation(addNewTodo, {
-      onSuccess: (data) => {
+      onSuccess: (ansFromBackend) => {
+         // ansFromBackend === data
          // hear we can update the cache
-         console.log('onSuccess Data: ', data);
+         console.log('onSuccess Data: ', ansFromBackend);
       },
    });
+
+   useEffect(() => {
+      console.log('Status: ', status);
+      console.log('Data: ', data);
+   }, [data, status]);
 
    const { register, handleSubmit, errors, formState } = useForm({
       mode: 'onChange',
       resolver: yupResolver(formSchema),
    });
 
-   const onAddTodoHandler = (data) => {
-      console.log(data);
-      mutate(data);
+   const onAddTodoHandler = (newTodo) => {
+      // console.log(newTodo);
+      mutate(newTodo);
    };
 
    return (

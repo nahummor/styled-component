@@ -68,7 +68,14 @@ const Div = styled.div`
    }
 `;
 
-const Card = ({ children, title, subTitle, width, elevation, align }) => {
+const Card = ({
+   children,
+   title,
+   subTitle,
+   width = '20rem',
+   elevation,
+   align,
+}) => {
    return (
       <Div width={width} elevation={elevation} align={align}>
          <h3 className='title'>{title}</h3>

@@ -14,6 +14,7 @@ const TodoAppContainer = styled.div`
    > .todo-content {
       display: flex;
       flex-direction: row;
+      align-items: flex-start;
       gap: 2rem;
    }
 `;
@@ -22,7 +23,7 @@ const TodoMain = () => {
    return (
       <PageLayout>
          <TodoAppContainer>
-            Main ToDo
+            <h3>משימות לביצוע</h3>
             <div className='todo-content' dir='rtl'>
                <AddNewTodo />
                <TodoList />
