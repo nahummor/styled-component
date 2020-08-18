@@ -17,20 +17,31 @@ import {
 } from '../../common';
 
 const InputContainer = styled.div`
-   width: 80%;
+   width: 85%;
+`;
+
+const MainContainer = styled.div`
+   display: flex;
+   flex-direction: row;
+   gap: 1rem;
+`;
+
+const Title = styled.div`
+   display: flex;
+   flex-direction: column;
+   width: 90%;
+
+   > p {
+      margin-top: 0.5rem;
+      font-weight: 800;
+   }
 `;
 
 const ButtonsContainer = styled.div`
    display: flex;
    flex-direction: column;
-   gap: 0.2rem;
+   gap: ${(props) => (props.editCard ? '1.8rem' : '0.2rem')};
    align-items: flex-end;
-   /* position: relative;
-   top: -4.3rem;
-   right: -0.5rem; */
-   position: absolute;
-   top: 0.5rem;
-   right: 90%;
 
    > button {
       background-color: transparent;
@@ -125,6 +136,7 @@ const Todo = ({ todo }) => {
    }, [saveStatus, saveData, saveError]);
 
    const editTodoHandler = () => {
+      console.log('Edit ToDo....');
       setEditMode(true);
       reset({ todo: todo.todo, userName: todo.userName });
    };
@@ -134,6 +146,7 @@ const Todo = ({ todo }) => {
    };
 
    const onSaveTodoHandler = (updatedTodo) => {
+      console.log('Save ToDo....');
       const newTodo = { _id: todo._id, ...updatedTodo };
       save(newTodo);
       setEditMode(false);
@@ -144,62 +157,61 @@ const Todo = ({ todo }) => {
    };
 
    const card = (
-      <Card
-         align={'right'}
-         title={todo.todo}
-         subTitle={todo.userName}
-         width={'30rem'}
-         elevation={5}>
-         <ButtonsContainer>
-            <button onClick={editTodoHandler}>
-               <EditPencilIcon />
-            </button>
-            <button onClick={deleteTodoHandler}>
-               <DeleteOutLineIcon />
-            </button>
-         </ButtonsContainer>
+      <Card align={'right'} width={'30rem'} elevation={5}>
+         <div style={{ display: 'flex' }}>
+            <Title>
+               <p>{todo.todo}</p>
+               <p>{todo.userName}</p>
+            </Title>
+            <ButtonsContainer>
+               <button onClick={editTodoHandler}>
+                  <EditPencilIcon />
+               </button>
+               <button onClick={deleteTodoHandler}>
+                  <DeleteOutLineIcon />
+               </button>
+            </ButtonsContainer>
+         </div>
       </Card>
    );
 
    const editCard = (
-      <Card
-         align={'right'}
-         title={''}
-         subTitle={''}
-         width={'30rem'}
-         elevation={5}>
-         <InputContainer>
-            <Input
-               name='todo'
-               type='text'
-               placeholder='תיאור משימה'
-               ref={register}
-            />
-            <FormMessage>
-               <p>{errors.todo ? errors.todo.message : null}</p>
-            </FormMessage>
-            <Input
-               name='userName'
-               type='text'
-               placeholder='שם משתמש'
-               ref={register}
-            />
-            <FormMessage>
-               <p>{errors.userName ? errors.userName.message : null}</p>
-            </FormMessage>
-         </InputContainer>
+      <Card align={'right'} width={'30rem'} elevation={5}>
+         <MainContainer>
+            <InputContainer>
+               <Input
+                  name='todo'
+                  type='text'
+                  placeholder='תיאור משימה'
+                  ref={register}
+               />
+               <FormMessage>
+                  <p>{errors.todo ? errors.todo.message : null}</p>
+               </FormMessage>
 
-         <ButtonsContainer>
-            <button
-               type='submit'
-               disabled={!formState.isValid}
-               style={!formState.isValid ? { cursor: 'not-allowed' } : null}>
-               <SaveIcon />
-            </button>
-            <button onClick={cancelEditTodoHandler} title='סגירה'>
-               <XIcon />
-            </button>
-         </ButtonsContainer>
+               <Input
+                  name='userName'
+                  type='text'
+                  placeholder='שם משתמש'
+                  ref={register}
+               />
+               <FormMessage>
+                  <p>{errors.userName ? errors.userName.message : null}</p>
+               </FormMessage>
+            </InputContainer>
+
+            <ButtonsContainer editCard>
+               <button onClick={cancelEditTodoHandler} title='סגירה'>
+                  <XIcon />
+               </button>
+               <button
+                  type='submit'
+                  disabled={!formState.isValid}
+                  style={!formState.isValid ? { cursor: 'not-allowed' } : null}>
+                  <SaveIcon />
+               </button>
+            </ButtonsContainer>
+         </MainContainer>
       </Card>
    );
 

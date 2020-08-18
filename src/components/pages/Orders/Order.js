@@ -7,7 +7,7 @@ const Order = ({ order }) => {
          align={'right'}
          title={order.job}
          subTitle={'חברה - ' + order.company}
-         width={'30rem'}
+         width={'25rem'}
          elevation={5}>
          <p>מספר הזמנה - {order.orderNumber}</p>
          <p>קבלן מבצע - {order.doneByConstructor}</p>

@@ -61,7 +61,7 @@ const Div = styled.div`
 
    color: #30336b;
    margin-bottom: 1rem;
-   position: relative;
+   /* position: relative; */
 
    @media (min-width: 768px) {
       width: ${(props) => props.width};
@@ -87,8 +87,10 @@ const Card = ({
 }) => {
    return (
       <Div width={width} elevation={elevation} align={align}>
-         <h3 className='title'> {title} </h3>{' '}
-         <h4 className='subtitle'> {subTitle} </h4> {children}{' '}
+         {title && <h3 className='title'> {title} </h3>}
+         {subTitle && <h4 className='subtitle'> {subTitle} </h4>}
+
+         {children}
       </Div>
    );
 };
