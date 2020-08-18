@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
+import { useMutation, queryCache } from 'react-query';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 
@@ -24,7 +24,10 @@ const AddNewTodo = () => {
    const [mutate, { status, data, error }] = useMutation(addNewTodo, {
       onSuccess: (ansFromBackend) => {
          // ansFromBackend === data
-         // hear we can update the cache
+         queryCache.setQueryData(['todoList'], (prev) => {
+            return { todoList: [...prev.todoList, ansFromBackend.ans.todo] };
+         });
+
          console.log('onSuccess Data: ', ansFromBackend);
       },
    });

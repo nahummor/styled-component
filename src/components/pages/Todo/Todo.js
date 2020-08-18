@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useMutation, queryCache } from 'react-query';
 import styled from 'styled-components';
 
-import { Card, EditPencilIcon, DeleteOutLineIcon } from '../../common';
+import {
+   Card,
+   EditPencilIcon,
+   DeleteOutLineIcon,
+   YesNoModal,
+   Input,
+   SaveIcon,
+} from '../../common';
+
+const InputContainer = styled.div`
+   width: 80%;
+`;
 
 const ButtonsContainer = styled.div`
    display: flex;
@@ -34,16 +46,49 @@ const ButtonsContainer = styled.div`
    }
 `;
 
+const deleteTodo = async (id) => {
+   const response = await fetch(`http://localhost:4000/api/todo?todoId=${id}`, {
+      method: 'DELETE',
+   });
+   return await response.json();
+};
+
 const Todo = ({ todo }) => {
-   const editTodo = () => {
-      console.log('Edit todo:', todo);
+   const [editMode, setEditMode] = useState(false);
+   const [openModal, setOpenModal] = useState(false);
+   const [mutate, { status, data, error }] = useMutation(deleteTodo, {
+      onSuccess: (ansFromBackend) => {
+         //  console.log('onSuccess Data: ', ansFromBackend);
+         queryCache.setQueryData(['todoList'], (prev) => {
+            const index = prev.todoList.findIndex(
+               (todo) => todo._id === ansFromBackend.todoId
+            );
+
+            return { todoList: [...prev.todoList.splice(1, index)] };
+         });
+      },
+   });
+
+   useEffect(() => {
+      console.log('Status: ', status);
+      console.log('Data: ', data);
+      console.log('Error: ', error);
+   }, [data, status, error]);
+
+   const saveTodoHandler = () => {
+      console.log('Save todo:', todo);
+      setEditMode(false);
    };
 
-   const deleteTodo = () => {
-      console.log('Delete todo: ', todo);
+   const editTodoHandler = () => {
+      setEditMode(true);
    };
 
-   return (
+   const deleteTodoHandler = () => {
+      setOpenModal(true);
+   };
+
+   const card = (
       <Card
          align={'right'}
          title={todo.todo}
@@ -51,14 +96,60 @@ const Todo = ({ todo }) => {
          width={'30rem'}
          elevation={5}>
          <ButtonsContainer>
-            <button onClick={editTodo}>
+            <button onClick={editTodoHandler}>
                <EditPencilIcon />
             </button>
-            <button onClick={deleteTodo}>
+            <button onClick={deleteTodoHandler}>
                <DeleteOutLineIcon />
             </button>
          </ButtonsContainer>
       </Card>
+   );
+
+   const editCard = (
+      <Card
+         align={'right'}
+         title={''}
+         subTitle={''}
+         width={'30rem'}
+         elevation={5}>
+         <InputContainer>
+            <Input type='text' name='todo' placeholder='תיאור משימה' />
+            <Input type='text' name='userName' placeholder='שם משתמש' />
+         </InputContainer>
+
+         <ButtonsContainer>
+            {editMode ? (
+               <button onClick={saveTodoHandler}>
+                  <SaveIcon />
+               </button>
+            ) : (
+               <button onClick={editTodoHandler}>
+                  <EditPencilIcon />
+               </button>
+            )}
+
+            <button onClick={deleteTodoHandler}>
+               <DeleteOutLineIcon />
+            </button>
+         </ButtonsContainer>
+      </Card>
+   );
+
+   return (
+      <>
+         {editMode ? editCard : card}
+
+         {/* add edit mode */}
+         <YesNoModal
+            show={openModal}
+            onYes={() => {
+               mutate(todo._id);
+            }}
+            onClose={() => setOpenModal(false)}
+            message={'האם למחוק את המשימה ?'}
+         />
+      </>
    );
 };
 
