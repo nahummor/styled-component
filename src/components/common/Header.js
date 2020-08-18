@@ -29,7 +29,7 @@ const Menu = styled.nav`
    padding: 8px;
    box-sizing: border-box;
    border-bottom: 3px solid ${(props) => props.theme.secondaryColor};
-   background: ${(props) => props.theme.bodyBackground};
+   background-color: ${(props) => props.theme.bodyBackground};
 
    @media (min-width: 768px) {
       display: flex;
@@ -67,7 +67,7 @@ const MobileMenuIcon = styled.div`
       height: 3px;
       background: ${(props) => props.theme.bodyFontColor};
       margin: 5px 0;
-      width: 100%initial;
+      width: 100%;
    }
 
    @media (min-width: 768px) {

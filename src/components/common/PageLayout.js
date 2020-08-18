@@ -9,6 +9,7 @@ const Content = styled.main`
    padding: 0 16px;
    box-sizing: border-box;
    font-family: 'Open Sans';
+
    /* background-color: #edf2f7; */
 
    h1,
@@ -25,7 +26,7 @@ export function PageLayout({ children }) {
    return (
       <>
          <Header />
-         <Content> {children} </Content>{' '}
+         <Content> {children} </Content>
       </>
    );
 }

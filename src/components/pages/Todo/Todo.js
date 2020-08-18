@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useMutation, queryCache } from 'react-query';
 import styled from 'styled-components';
+import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers';
 
 import {
    Card,
@@ -9,6 +12,8 @@ import {
    YesNoModal,
    Input,
    SaveIcon,
+   FormMessage,
+   XIcon,
 } from '../../common';
 
 const InputContainer = styled.div`
@@ -46,6 +51,11 @@ const ButtonsContainer = styled.div`
    }
 `;
 
+const formSchema = Yup.object().shape({
+   todo: Yup.string().required('שדה חובה').min(4, 'תוכן המשימה לפחות 4 תווים'),
+   userName: Yup.string().required('שדה חובה').min(2, 'שם לפחות 2 תווים'),
+});
+
 const deleteTodo = async (id) => {
    const response = await fetch(`http://localhost:4000/api/todo?todoId=${id}`, {
       method: 'DELETE',
@@ -53,18 +63,51 @@ const deleteTodo = async (id) => {
    return await response.json();
 };
 
+const saveTodo = async (todo) => {
+   const response = await fetch('http://localhost:4000/api/todo', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ todo: todo }),
+   });
+   return await response.json();
+};
+
 const Todo = ({ todo }) => {
+   const { register, handleSubmit, errors, formState, reset } = useForm({
+      mode: 'onChange',
+      resolver: yupResolver(formSchema),
+   });
    const [editMode, setEditMode] = useState(false);
    const [openModal, setOpenModal] = useState(false);
+
    const [mutate, { status, data, error }] = useMutation(deleteTodo, {
       onSuccess: (ansFromBackend) => {
-         //  console.log('onSuccess Data: ', ansFromBackend);
          queryCache.setQueryData(['todoList'], (prev) => {
             const index = prev.todoList.findIndex(
                (todo) => todo._id === ansFromBackend.todoId
             );
 
-            return { todoList: [...prev.todoList.splice(1, index)] };
+            const tempData = [...prev.todoList];
+            tempData.splice(index, 1);
+            return { todoList: [...tempData] };
+         });
+      },
+   });
+
+   const [
+      save,
+      { status: saveStatus, data: saveData, error: saveError },
+   ] = useMutation(saveTodo, {
+      onSuccess: (ansFromBackend) => {
+         // update cache
+         console.log('onSuccess Data: ', ansFromBackend);
+         queryCache.setQueryData(['todoList'], (prev) => {
+            const index = prev.todoList.findIndex(
+               (todo) => todo._id === ansFromBackend.todo._id
+            );
+            const tempData = [...prev.todoList];
+            tempData[index] = ansFromBackend.todo;
+            return { todoList: [...tempData] };
          });
       },
    });
@@ -75,17 +118,29 @@ const Todo = ({ todo }) => {
       console.log('Error: ', error);
    }, [data, status, error]);
 
-   const saveTodoHandler = () => {
-      console.log('Save todo:', todo);
-      setEditMode(false);
-   };
+   useEffect(() => {
+      console.log('Save status: ', saveStatus);
+      console.log('Save Data: ', saveData);
+      console.log('Save Error: ', saveError);
+   }, [saveStatus, saveData, saveError]);
 
    const editTodoHandler = () => {
       setEditMode(true);
+      reset({ todo: todo.todo, userName: todo.userName });
    };
 
    const deleteTodoHandler = () => {
       setOpenModal(true);
+   };
+
+   const onSaveTodoHandler = (updatedTodo) => {
+      const newTodo = { _id: todo._id, ...updatedTodo };
+      save(newTodo);
+      setEditMode(false);
+   };
+
+   const cancelEditTodoHandler = () => {
+      setEditMode(false);
    };
 
    const card = (
@@ -114,23 +169,35 @@ const Todo = ({ todo }) => {
          width={'30rem'}
          elevation={5}>
          <InputContainer>
-            <Input type='text' name='todo' placeholder='תיאור משימה' />
-            <Input type='text' name='userName' placeholder='שם משתמש' />
+            <Input
+               name='todo'
+               type='text'
+               placeholder='תיאור משימה'
+               ref={register}
+            />
+            <FormMessage>
+               <p>{errors.todo ? errors.todo.message : null}</p>
+            </FormMessage>
+            <Input
+               name='userName'
+               type='text'
+               placeholder='שם משתמש'
+               ref={register}
+            />
+            <FormMessage>
+               <p>{errors.userName ? errors.userName.message : null}</p>
+            </FormMessage>
          </InputContainer>
 
          <ButtonsContainer>
-            {editMode ? (
-               <button onClick={saveTodoHandler}>
-                  <SaveIcon />
-               </button>
-            ) : (
-               <button onClick={editTodoHandler}>
-                  <EditPencilIcon />
-               </button>
-            )}
-
-            <button onClick={deleteTodoHandler}>
-               <DeleteOutLineIcon />
+            <button
+               type='submit'
+               disabled={!formState.isValid}
+               style={!formState.isValid ? { cursor: 'not-allowed' } : null}>
+               <SaveIcon />
+            </button>
+            <button onClick={cancelEditTodoHandler} title='סגירה'>
+               <XIcon />
             </button>
          </ButtonsContainer>
       </Card>
@@ -138,9 +205,10 @@ const Todo = ({ todo }) => {
 
    return (
       <>
-         {editMode ? editCard : card}
+         <form onSubmit={handleSubmit(onSaveTodoHandler)}>
+            {editMode ? editCard : card}
+         </form>
 
-         {/* add edit mode */}
          <YesNoModal
             show={openModal}
             onYes={() => {

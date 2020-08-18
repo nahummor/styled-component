@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { useMutation, queryCache } from 'react-query';
+import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers';
 
@@ -24,6 +24,7 @@ const AddNewTodo = () => {
    const [mutate, { status, data, error }] = useMutation(addNewTodo, {
       onSuccess: (ansFromBackend) => {
          // ansFromBackend === data
+         reset();
          queryCache.setQueryData(['todoList'], (prev) => {
             return { todoList: [...prev.todoList, ansFromBackend.ans.todo] };
          });
@@ -32,16 +33,16 @@ const AddNewTodo = () => {
       },
    });
 
+   const { register, handleSubmit, errors, formState, reset } = useForm({
+      mode: 'onChange',
+      resolver: yupResolver(formSchema),
+   });
+
    useEffect(() => {
       console.log('Status: ', status);
       console.log('Data: ', data);
       console.log('Error: ', error);
    }, [data, status, error]);
-
-   const { register, handleSubmit, errors, formState } = useForm({
-      mode: 'onChange',
-      resolver: yupResolver(formSchema),
-   });
 
    const onAddTodoHandler = (newTodo) => {
       // console.log(newTodo);

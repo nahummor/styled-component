@@ -13,9 +13,14 @@ const TodoAppContainer = styled.div`
 
    > .todo-content {
       display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 2rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+
+      @media (min-width: 768px) {
+         flex-direction: row;
+         align-items: flex-start;
+      }
    }
 `;
 
